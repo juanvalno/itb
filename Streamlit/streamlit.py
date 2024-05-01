@@ -20,6 +20,9 @@ def load_pickle_from_url(url):
 lambda_values = load_pickle_from_url(url_lambda)
 model = load_pickle_from_url(url_model)
 
+# Extract the model object
+model = model_data['best_model']
+
 st.title('Prediksi Tingkat Cholesterol')
 
 col1, col2, col3 = st.columns(3)
