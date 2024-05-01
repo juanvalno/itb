@@ -2,20 +2,15 @@ import pickle
 import pandas as pd
 import numpy as np
 import streamlit as st
-from sklearn.preprocessing import LabelEncoder
-from scipy.stats import skew
 from scipy.special import boxcox1p
-from scipy.stats import boxcox_normmax
 from sklearn.preprocessing import PolynomialFeatures
-import requests
 
-url = 'https://github.com/juanvalno/itb/raw/a2c2e75ffaa116ffc7a0c08bafbac9bd7f06dfec/Model/model_lgbm_tune.pkl'
-response = requests.get(url)
-with open('model_lgbm_tune.pkl', 'wb') as file:
-    file.write(response.content)
+# Load the lambda values
+with open('../Model/lambda_values.pkl', 'rb') as f:
+    lambda_values = pickle.load(f)
 
 # Load the model and other data
-model_data = pickle.load(open('model_lgbm_tune.pkl', 'rb'))
+model_data = pickle.load(open('../Model/model_lgbm_tune.pkl', 'rb'))
 
 # Extract the model object
 model = model_data['best_model']
@@ -24,9 +19,9 @@ st.title('Prediksi Tingkat Cholesterol')
 
 col1, col2, col3 = st.columns(3)
 with col1:
+    gender_mapping = {'Male': 1, 'Female': 0}
     Gndr = st.selectbox('Masukan Gender', ['Male', 'Female'])
-    gender_encoder = LabelEncoder()
-    Gender = gender_encoder.fit_transform([Gndr])[0]
+    Gender = gender_mapping[Gndr]
 with col2:
     Usia = st.number_input('Masukkan Usia', format="%.0f")
 with col3:
@@ -49,18 +44,16 @@ with col9:
     glukosa_puasa = st.number_input('Masukkan Glukosa (mg/dL)', format="%.2f")
 
 col10, col11, col12 = st.columns(3)
-with col7:
+with col10:
     Trigliserida  = st.number_input('Masukkan Trigliserida (mg/dL) ', format="%.2f")
-with col8:
+with col11:
     Fat = st.number_input('Masukkan Fat', format="%.2f")
-with col9:
+with col12:
     Visceral_Fat = st.number_input('Masukkan Visceral Fat', format="%.2f")
 
 col13 = st.columns(1)
-with col7:
+with col13[0]:
     Masa_Kerja  = st.number_input('Masukkan Masa Kerja', format="%.1f")
-
-Label = ''
 
 input_data = pd.DataFrame({
     'Gender': [Gender], 'Usia': [Usia], 'Tekanan_darah_S': [Tekanan_darah_S],
@@ -70,19 +63,21 @@ input_data = pd.DataFrame({
     'Fat': [Fat], 'Visceral_Fat': [Visceral_Fat], 'Masa_Kerja': [Masa_Kerja]
 })
 
-# Checking high skewness and transforming the data
-skew_check = input_data.apply(lambda input_data: abs(skew(input_data)))
-skewed_feats = skew_check[skew_check > 0.5].index
+skewed_feats = ['Berat_badan', 'IMT', 'Glukosa_Puasa', 'Trigliserida', 'Fat', 'Visceral_Fat', 'Masa_Kerja', 'Gender', 'Usia']
 
 for feature in skewed_feats:
-    optimal_lambda = boxcox_normmax(input_data[feature] + 1)
-    input_data[feature] = boxcox1p(input_data[feature], optimal_lambda)
+    input_data[feature] = boxcox1p(input_data[feature], lambda_values[feature])    
 
 # Apply polynomial features
 poly = PolynomialFeatures(degree=2, include_bias=False)
 input_data_poly = poly.fit_transform(input_data)
 
 if st.button('Deteksi Cholesterol'):
-    prediction = model.predict(input_data_poly)[0]
-    prediction_inverse = np.expm1(prediction)
-    st.write('Prediksi Cholesterol:', prediction_inverse)
+    if input_data.isnull().value_counts:
+        st.write('Data tidak terisi semua. Tolong isi kembali semua data.')
+    else:
+        prediction = model.predict(input_data_poly)[0]
+        prediction_inverse = np.expm1(prediction)
+        st.write('Prediksi Cholesterol:', prediction_inverse)
+
+
