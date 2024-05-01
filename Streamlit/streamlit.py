@@ -6,6 +6,9 @@ from scipy.special import boxcox1p
 from sklearn.preprocessing import PolynomialFeatures
 import requests
 
+url_lamda = 'https://github.com/juanvalno/itb/blob/ecc486c3c479818fc61dead72c9751b326bd9ef0/Model/lambda_values.pkl'
+url_model = ''
+
 # Load the lambda values
 lambda_values = pickle.load(open('/Model/lambda_values.pkl', 'rb'))
 
