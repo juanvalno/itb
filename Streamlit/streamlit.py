@@ -7,29 +7,35 @@ from sklearn.preprocessing import PolynomialFeatures
 import requests
 
 # Correct URLs for the raw content of the pickle files
-url_lambda = 'https://github.com/juanvalno/itb/blob/9605c8d543cf1b6e4ad5357f769bac634ca38e6c/Streamlit/lambda_values.pkl'
-url_model = 'https://github.com/juanvalno/itb/blob/9605c8d543cf1b6e4ad5357f769bac634ca38e6c/Streamlit/model_lgbm_tune.pkl'
+url_lambda = 'https://github.com/juanvalno/itb/blob/main/Model/lambda_values.pkl?raw=true'
+url_model = 'https://github.com/juanvalno/itb/blob/main/Model/model_lgbm_tune.pkl?raw=true'
 
 # Download and load the lambda values
-response_lambda = requests.get(url_lambda, stream=True)
-if response_lambda.ok:
-    with open('lambda_values.pkl', 'wb') as f:
-        f.write(response_lambda.content)
-    with open('lambda_values.pkl', 'rb') as f:
-        lambda_values = pickle.load(f)
-else:
-    st.error('Failed to download lambda values.')
+try:
+    response_lambda = requests.get(url_lambda, stream=True)
+    if response_lambda.ok:
+        with open('lambda_values.pkl', 'wb') as f:
+            f.write(response_lambda.content)
+        with open('lambda_values.pkl', 'rb') as f:
+            lambda_values = pickle.load(f)
+    else:
+        st.error('Failed to download lambda values.')
+except Exception as e:
+    st.error(f'An error occurred: {e}')
 
 # Download and load the model
-response_model = requests.get(url_model, stream=True)
-if response_model.ok:
-    with open('model_lgbm_tune.pkl', 'wb') as f:
-        f.write(response_model.content)
-    with open('model_lgbm_tune.pkl', 'rb') as f:
-        model_data = pickle.load(f)
-        model = model_data['best_model']
-else:
-    st.error('Failed to download model.')
+try:
+    response_model = requests.get(url_model, stream=True)
+    if response_model.ok:
+        with open('model_lgbm_tune.pkl', 'wb') as f:
+            f.write(response_model.content)
+        with open('model_lgbm_tune.pkl', 'rb') as f:
+            model_data = pickle.load(f)
+            model = model_data['best_model']
+    else:
+        st.error('Failed to download model.')
+except Exception as e:
+    st.error(f'An error occurred: {e}')
 
 st.title('Prediksi Tingkat Cholesterol')
 
