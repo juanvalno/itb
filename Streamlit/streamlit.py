@@ -4,9 +4,12 @@ import numpy as np
 import streamlit as st
 from scipy.special import boxcox1p
 from sklearn.preprocessing import PolynomialFeatures
+import requests
 
-# Load the lambda values
-lambda_values = pickle.load(open('../Model/lambda_values.pkl', 'rb'))
+url = 'https://github.com/juanvalno/itb/blob/8bc8de18f3b928da315a94cca326cffd3ad13b29/Model/lambda_values.pkl?raw=true'
+response = requests.get(url)
+with open('lambda_values.pkl', 'wb') as f:
+    f.write(response.content)
 
 # Load the model and other data
 model_data = pickle.load(open('../Model/model_lgbm_tune.pkl', 'rb'))
