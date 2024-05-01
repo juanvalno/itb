@@ -8,8 +8,13 @@ from scipy.special import boxcox1p
 from scipy.stats import boxcox_normmax
 from sklearn.preprocessing import PolynomialFeatures
 
+url = 'https://github.com/juanvalno/itb/raw/a2c2e75ffaa116ffc7a0c08bafbac9bd7f06dfec/Model/model_lgbm_tune.pkl'
+response = requests.get(url)
+with open('model_lgbm_tune.pkl', 'wb') as file:
+    file.write(response.content)
+
 # Load the model and other data
-model_data = pickle.load(open('https://github.com/juanvalno/itb/blob/a2c2e75ffaa116ffc7a0c08bafbac9bd7f06dfec/Model/model_lgbm_tune.pkl', 'rb'))
+model_data = pickle.load(open('model_lgbm_tune.pkl', 'rb'))
 
 # Extract the model object
 model = model_data['best_model']
