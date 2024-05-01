@@ -6,36 +6,11 @@ from scipy.special import boxcox1p
 from sklearn.preprocessing import PolynomialFeatures
 import requests
 
-# Correct URLs for the raw content of the pickle files
-url_lambda = 'https://github.com/juanvalno/itb/blob/main/Model/lambda_values.pkl?raw=true'
-url_model = 'https://github.com/juanvalno/itb/blob/main/Model/model_lgbm_tune.pkl?raw=true'
+# Load the lambda values
+lambda_values = pickle.load(open('../Model/lambda_values.pkl', 'rb'))
 
-# Download and load the lambda values
-try:
-    response_lambda = requests.get(url_lambda, stream=True)
-    if response_lambda.ok:
-        with open('lambda_values.pkl', 'wb') as f:
-            f.write(response_lambda.content)
-        with open('lambda_values.pkl', 'rb') as f:
-            lambda_values = pickle.load(f)
-    else:
-        st.error('Failed to download lambda values.')
-except Exception as e:
-    st.error(f'An error occurred: {e}')
-
-# Download and load the model
-try:
-    response_model = requests.get(url_model, stream=True)
-    if response_model.ok:
-        with open('model_lgbm_tune.pkl', 'wb') as f:
-            f.write(response_model.content)
-        with open('model_lgbm_tune.pkl', 'rb') as f:
-            model_data = pickle.load(f)
-            model = model_data['best_model']
-    else:
-        st.error('Failed to download model.')
-except Exception as e:
-    st.error(f'An error occurred: {e}')
+# Load the model and other data
+model_data = pickle.load(open('../Model/model_lgbm_tune.pkl', 'rb'))
 
 st.title('Prediksi Tingkat Cholesterol')
 
