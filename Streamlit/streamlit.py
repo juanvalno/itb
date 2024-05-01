@@ -7,7 +7,7 @@ from sklearn.preprocessing import PolynomialFeatures
 import requests
 
 url_lamda = 'https://github.com/juanvalno/itb/blob/ecc486c3c479818fc61dead72c9751b326bd9ef0/Model/lambda_values.pkl'
-url_model = ''
+url_model = 'https://github.com/juanvalno/itb/blob/c74d37ccfe8324d13668d2862bac8f0b81072b47/Model/model_lgbm_tune.pkl'
 
 # Load the lambda values
 lambda_values = pickle.load(open('/Model/lambda_values.pkl', 'rb'))
