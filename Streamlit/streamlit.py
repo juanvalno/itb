@@ -7,6 +7,7 @@ from scipy.stats import skew
 from scipy.special import boxcox1p
 from scipy.stats import boxcox_normmax
 from sklearn.preprocessing import PolynomialFeatures
+import requests
 
 url = 'https://github.com/juanvalno/itb/raw/a2c2e75ffaa116ffc7a0c08bafbac9bd7f06dfec/Model/model_lgbm_tune.pkl'
 response = requests.get(url)
