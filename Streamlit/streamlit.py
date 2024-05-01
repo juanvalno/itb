@@ -12,7 +12,7 @@ with open('lambda_values.pkl', 'wb') as f:
     f.write(response_lamda.content)
 
 # Load the model and other data
-url_model = 'https://github.com/juanvalno/itb/blob/8bc8de18f3b928da315a94cca326cffd3ad13b29/Model/lambda_values.pkl?raw=true'
+url_model = 'https://github.com/juanvalno/itb/blob/6e27ef37b0dd92209b5760528d026f80e8b955e7/Model/model_lgbm_tune.pkl'
 response_model = requests.get(url_model)
 with open('model_lgbm_tune.pkl', 'wb') as f:
     f.write(response_model.content)
