@@ -7,10 +7,10 @@ from sklearn.preprocessing import PolynomialFeatures
 import requests
 
 # Load the lambda values
-lambda_values = pickle.load(open('../Model/lambda_values.pkl', 'rb'))
+lambda_values = pickle.load(open('lambda_values.pkl', 'rb'))
 
 # Load the model and other data
-model = pickle.load(open('../Model/model_lgbm_tune.pkl', 'rb'))
+model = pickle.load(open('model_lgbm_tune.pkl', 'rb'))
 
 st.title('Prediksi Tingkat Cholesterol')
 
