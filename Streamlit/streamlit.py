@@ -7,8 +7,8 @@ from sklearn.preprocessing import PolynomialFeatures
 import requests
 
 # Correct URLs for the raw content of the pickle files
-url_lambda = 'https://github.com/juanvalno/itb/blob/main/Model/lambda_values.pkl?raw=true'
-url_model = 'https://github.com/juanvalno/itb/blob/main/Model/model_lgbm_tune.pkl?raw=true'
+url_lambda = 'https://github.com/juanvalno/itb/blob/9605c8d543cf1b6e4ad5357f769bac634ca38e6c/Streamlit/lambda_values.pkl'
+url_model = 'https://github.com/juanvalno/itb/blob/9605c8d543cf1b6e4ad5357f769bac634ca38e6c/Streamlit/model_lgbm_tune.pkl'
 
 # Download and load the lambda values
 response_lambda = requests.get(url_lambda, stream=True)
@@ -89,8 +89,8 @@ poly = PolynomialFeatures(degree=2, include_bias=False)
 input_data_poly = poly.fit_transform(input_data)
 
 if st.button('Deteksi Cholesterol'):
-    if input_data.isnull().value_counts:
-        st.write('Data tidak terisi semua. Tolong isi kembali semua data.')
+    if input_data.isnull().any().any():
+        st.error('Data tidak terisi semua. Tolong isi kembali semua data.')
     else:
         prediction = model.predict(input_data_poly)[0]
         prediction_inverse = np.expm1(prediction)
