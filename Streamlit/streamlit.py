@@ -86,4 +86,5 @@ if st.button('Deteksi Cholesterol'):
     else:
         prediction = model.predict(input_data_poly)[0]
         prediction_inverse = np.expm1(prediction)
-        st.write('Prediksi Cholesterol:', prediction_inverse)
+        st.write('Prediksi Cholesterol:', prediction_inverse, font='Arial 20')
+
