@@ -10,12 +10,16 @@ url_lamda = 'https://github.com/juanvalno/itb/blob/8bc8de18f3b928da315a94cca326c
 response_lamda = requests.get(url_lamda)
 with open('lambda_values.pkl', 'wb') as f:
     f.write(response_lamda.content)
+    
+# Load the lambda values
+lambda_values = pickle.load(open('lambda_values.pkl', 'rb'))
 
 # Load the model and other data
 url_model = 'https://github.com/juanvalno/itb/blob/6e27ef37b0dd92209b5760528d026f80e8b955e7/Model/model_lgbm_tune.pkl'
 response_model = requests.get(url_model)
 with open('model_lgbm_tune.pkl', 'wb') as f:
     f.write(response_model.content)
+model = pickle.load(open('model_lgbm_tune.pkl', 'rb'))
 
 # Extract the model object
 model = model_data['best_model']
