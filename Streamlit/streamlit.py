@@ -8,15 +8,23 @@ from scipy.special import boxcox1p
 from scipy.stats import boxcox_normmax
 from sklearn.preprocessing import PolynomialFeatures
 
-
 try:
     with open('../Model/model_lgbm_tune.pkl', 'rb') as file:
         model_data = pickle.load(file)
 except FileNotFoundError:
     st.error("Model file not found. Please make sure the file is available.")
+    st.stop()  # Stop execution if the file is not found
 
-# Extract the model object
-model = model_data['best_model']
+# Check the contents of model_data
+st.write("Keys in model_data:", model_data.keys())
+
+# Access the model if it exists
+if 'best_model' in model_data:
+    model = model_data['best_model']
+    st.success("Model loaded successfully!")
+else:
+    st.error("Model data does not contain 'best_model'. Please check your model file.")
+    st.stop()  # Stop execution if 'best_model' is not found
 
 st.title('Prediksi Tingkat Cholesterol')
 
