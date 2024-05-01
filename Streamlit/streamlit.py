@@ -8,7 +8,6 @@ from scipy.special import boxcox1p
 from scipy.stats import boxcox_normmax
 from sklearn.preprocessing import PolynomialFeatures
 
-
 # Load the model and other data
 model_data = pickle.load(open('../Model/model_lgbm_tune.pkl', 'rb'))
 
@@ -66,7 +65,7 @@ input_data = pd.DataFrame({
 })
 
 # Checking high skewness and transforming the data
-skew_check = input_data.apply(lambda x: abs(skew(x)))
+skew_check = input_data.apply(lambda input_data: abs(skew(input_data)))
 skewed_feats = skew_check[skew_check > 0.5].index
 
 for feature in skewed_feats:
