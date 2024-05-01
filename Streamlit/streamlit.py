@@ -6,13 +6,16 @@ from scipy.special import boxcox1p
 from sklearn.preprocessing import PolynomialFeatures
 import requests
 
-url = 'https://github.com/juanvalno/itb/blob/8bc8de18f3b928da315a94cca326cffd3ad13b29/Model/lambda_values.pkl?raw=true'
-response = requests.get(url)
+url_lamda = 'https://github.com/juanvalno/itb/blob/8bc8de18f3b928da315a94cca326cffd3ad13b29/Model/lambda_values.pkl?raw=true'
+response_lamda = requests.get(url_lamda)
 with open('lambda_values.pkl', 'wb') as f:
-    f.write(response.content)
+    f.write(response_lamda.content)
 
 # Load the model and other data
-model_data = pickle.load(open('../Model/model_lgbm_tune.pkl', 'rb'))
+url_model = 'https://github.com/juanvalno/itb/blob/8bc8de18f3b928da315a94cca326cffd3ad13b29/Model/lambda_values.pkl?raw=true'
+response_model = requests.get(url_model)
+with open('model_lgbm_tune.pkl', 'wb') as f:
+    f.write(response_model.content)
 
 # Extract the model object
 model = model_data['best_model']
