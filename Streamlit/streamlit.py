@@ -6,14 +6,19 @@ from scipy.special import boxcox1p
 from sklearn.preprocessing import PolynomialFeatures
 import requests
 
-url_lamda = 'https://github.com/juanvalno/itb/blob/ecc486c3c479818fc61dead72c9751b326bd9ef0/Model/lambda_values.pkl'
-url_model = 'https://github.com/juanvalno/itb/blob/c74d37ccfe8324d13668d2862bac8f0b81072b47/Model/model_lgbm_tune.pkl'
+# Use the raw URL of the file
+url_lambda = 'https://raw.githubusercontent.com/juanvalno/itb/ecc486c3c479818fc61dead72c9751b326bd9ef0/Model/lambda_values.pkl'
+url_model = 'https://raw.githubusercontent.com/juanvalno/itb/c74d37ccfe8324d13668d2862bac8f0b81072b47/Model/model_lgbm_tune.pkl'
 
-# Load the lambda values
-lambda_values = pickle.load(open('/Model/lambda_values.pkl', 'rb'))
+# Function to load a pickle file from a URL
+def load_pickle_from_url(url):
+    response = requests.get(url)
+    file_content = response.content
+    return pickle.loads(file_content)
 
-# Load the model and other data
-model = pickle.load(open('model_lgbm_tune.pkl', 'rb'))
+# Load the lambda values and model
+lambda_values = load_pickle_from_url(url_lambda)
+model = load_pickle_from_url(url_model)
 
 st.title('Prediksi Tingkat Cholesterol')
 
