@@ -18,7 +18,7 @@ def load_pickle_from_url(url):
 
 # Load the lambda values and model
 lambda_values = load_pickle_from_url(url_lambda)
-model = load_pickle_from_url(url_model)
+model_data = load_pickle_from_url(url_model)
 
 # Extract the model object
 model = model_data['best_model']
