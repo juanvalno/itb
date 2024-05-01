@@ -6,8 +6,7 @@ from scipy.special import boxcox1p
 from sklearn.preprocessing import PolynomialFeatures
 
 # Load the lambda values
-with open('../Model/lambda_values.pkl', 'rb') as f:
-    lambda_values = pickle.load(f)
+lambda_values = pickle.load(open('../Model/lambda_values.pkl', 'rb'))
 
 # Load the model and other data
 model_data = pickle.load(open('../Model/model_lgbm_tune.pkl', 'rb'))
