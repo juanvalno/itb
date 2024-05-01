@@ -81,7 +81,7 @@ poly = PolynomialFeatures(degree=2, include_bias=False)
 input_data_poly = poly.fit_transform(input_data)
 
 if st.button('Deteksi Cholesterol'):
-    if input_data.isnull().value_counts:
+    if input_data.isnull().any().any():
         st.write('Data tidak terisi semua. Tolong isi kembali semua data.')
     else:
         prediction = model.predict(input_data_poly)[0]
