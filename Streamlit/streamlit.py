@@ -9,8 +9,11 @@ from scipy.stats import boxcox_normmax
 from sklearn.preprocessing import PolynomialFeatures
 
 
-# Load the model and other data
-model_data = pickle.load(open('../Model/model_lgbm_tune.pkl', 'rb'))
+try:
+    with open('../Model/model_lgbm_tune.pkl', 'rb') as file:
+        model_data = pickle.load(file)
+except FileNotFoundError:
+    st.error("Model file not found. Please make sure the file is available.")
 
 # Extract the model object
 model = model_data['best_model']
