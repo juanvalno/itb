@@ -24,11 +24,11 @@ model_data = load_pickle_from_url(url_model)
 model = model_data['best_model']
 
 title = 'MEKAR'
-html_string_1 = f"<h1 style='font-size: 30px;'>{title}</h1>"
+html_string_1 = f"<h1 style='font-size: 50px;'>{title}</h1>"
 st.markdown(html_string_1, unsafe_allow_html=True)
 
 title_2 = 'Mengoptimalkan Kesejahteraan Karyawan dengan Prediksi Cerdas'
-html_string_2 = f"<h3 style='font-size: 15px;'>{title_2}</h3>"
+html_string_2 = f"<h3 style='font-size: 25px;'>{title_2}</h3>"
 st.markdown(html_string_2, unsafe_allow_html=True)
 
 col1, col2, col3 = st.columns(3)
